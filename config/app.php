@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
-        RachidLaasri\LaravelInstaller\Providers\LaravelInstallerServiceProvider::class,
+        // RachidLaasri\LaravelInstaller\Providers\LaravelInstallerServiceProvider::class,
         Madnest\Madzipper\MadzipperServiceProvider::class,
         \App\Providers\AweBookingProvider::class,
         \App\Providers\AweExtensionProvider::class,

@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.3",
+        "ext-curl": "*",
+        "ext-json": "*",
         "ext-zip": "*",
         "cartalyst/sentinel": "^3.0",
         "doctrine/dbal": "2.10.2",
@@ -24,9 +26,7 @@
         "phpmailer/phpmailer": "^6.1",
         "symfony/translation": "4.3.8",
         "tedivm/jshrink": "~1.0",
-        "tinify/tinify": "^1.5",
-        "ext-curl": "*",
-      "ext-json": "*"
+        "tinify/tinify": "^1.5"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
