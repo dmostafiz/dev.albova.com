@@ -39,9 +39,13 @@
                             }
                         }
                         ?>
+
+                        
                         @if ($menu['type'] == 'heading')
                             <li class="menu-title">{{ __($menu['label']) }}</li>
                         @endif
+
+
                         @if ($menu['type'] === 'item' || $menu['type'] == 'hidden')
                             <?php
                             $url = 'javascript:void(0);';
@@ -59,6 +63,9 @@
                                     <span>{{ __($menu['label']) }}</span></a>
                             </li>
                         @endif
+                        
+
+
                         @if ($menu['type'] === 'parent')
                             <?php
                             $icon = '';
@@ -99,6 +106,7 @@
                                 </ul>
                             </li>
                         @endif
+
                     @endforeach
                 @endif
             </ul>

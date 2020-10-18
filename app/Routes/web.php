@@ -3,6 +3,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => Config::get('awebooking.prefix_dashboard'), 'middleware' => ['authenticate', 'locale']], function () {
 
+
+    Route::get('affiliate-program', 'DashboardController@affiliateProgram')->name('affiliate-program');
+
+
+
+
     Route::get('/', 'DashboardController@index')->name('dashboard');
 
     Route::get('menus', 'MenuController@index')->name('menus');

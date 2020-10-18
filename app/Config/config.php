@@ -213,6 +213,7 @@ return [
         'female' => awe_lang('Female'),
         'other' => awe_lang('Other'),
     ],
+
     'admin_menu' => [
         [
             'type' => 'heading',
@@ -537,6 +538,8 @@ return [
             'screen' => ['import-fonts', 'email-checker', 'tinypng-compress']
         ],
     ],
+
+
     'partner_menu' => [
         [
             'type' => 'heading',
@@ -559,6 +562,12 @@ return [
             'label' => awe_lang('Notifications'),
             'icon' => '003_error',
             'screen' => 'all-notifications',
+        ],
+        [
+            'type' => 'item',
+            'label' => awe_lang('Affiliate Program'),
+            'icon' => '007_bars',
+            'screen' => 'affiliate-program',
         ],
         [
             'type' => 'heading',
@@ -685,6 +694,8 @@ return [
             'screen' => 'payout',
         ],
     ],
+
+
     'customer_menu' => [
         [
             'type' => 'heading',

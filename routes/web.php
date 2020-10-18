@@ -1,5 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpFoundation\Request;
+
+// use Illuminate\Routing\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,3 +15,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// use Illuminate\Support\Facades\Request;
+
+Route::get('/user', 'RefferalController@reffInit')->name('user.reff');
+Route::post('/userGenerateRefID', 'RefferalController@generateRefId')->name('reff.generate');

@@ -2,17 +2,18 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Services\CarController;
-use App\Controllers\Services\ExperienceController;
-use App\Controllers\Services\HomeController;
-use App\Http\Controllers\Controller;
-use App\Models\Comment;
-use App\Models\Media;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Mockery\Exception;
 use Sentinel;
+use App\Models\User;
+use App\Models\Media;
+use Mockery\Exception;
+use App\Models\Comment;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Controllers\Services\CarController;
+use App\Controllers\Services\HomeController;
+use App\Controllers\Services\ExperienceController;
 
 class UserController extends Controller
 {
@@ -109,6 +110,28 @@ class UserController extends Controller
                 'message' => view('common.alert', ['type' => 'danger', 'message' => __('This featured is not available')])->render()
             ]);
         }
+
+        if(Session::has('ref_id'))
+        {
+            $refId = Session::get('ref_id');
+
+            $reffUser = User::where('ref_id', $refId)->first();
+
+            if($reffUser)
+            {
+                $parrentId = $reffUser->id;
+            }
+            else 
+            {
+                $parrentId = null;
+            }
+            
+        }
+        else
+        {
+            $parrentId = null;
+        }
+
         $validator = Validator::make($request->all(),
             [
                 'first_name' => 'required',
@@ -158,6 +181,15 @@ class UserController extends Controller
 
         try {
             $user = Sentinel::registerAndActivate($credentials);
+
+            $time = time();
+
+            $newRefId = substr($time, -4) . $user->id;
+
+            $newUser = User::where('id', $user->id)->first();
+            $newUser->ref_id = $newRefId;
+            $newUser->parent_id = $parrentId;
+            $newUser->save();
 
             $args = [
                 'mobile' => request()->get('phone'),

@@ -2,15 +2,17 @@
 
 namespace App\Controllers;
 
+use Redirect;
+use Sentinel;
+use App\Models\User;
+use Mockery\Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Mockery\Exception;
-use Sentinel;
-use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
-use Redirect;
+use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 
 class AuthController extends Controller
 {
@@ -28,6 +30,28 @@ class AuthController extends Controller
 
     public function _postSignUp(Request $request)
     {
+
+        if(Session::has('ref_id'))
+        {
+            $refId = Session::get('ref_id');
+
+            $reffUser = User::where('ref_id', $refId)->first();
+
+            if($reffUser)
+            {
+                $parrentId = $reffUser->id;
+            }
+            else 
+            {
+                $parrentId = null;
+            }
+            
+        }
+        else
+        {
+            $parrentId = null;
+        }
+
         $validator = Validator::make($request->all(),
             [
                 'email' => 'required',
@@ -63,6 +87,16 @@ class AuthController extends Controller
         }
         try {
             $user = Sentinel::registerAndActivate($credentials);
+
+
+            $time = time();
+
+            $newRefId = substr($time, -4) . $user->id;
+
+            $newUser = User::where('id', $user->id)->first();
+            $newUser->ref_id = $newRefId;
+            $newUser->parent_id = $parrentId;
+            $newUser->save();
 
             $user_model = new \App\Models\User();
             $role = $user_model->getRoleByName('customer');

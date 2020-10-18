@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
+
+    public function affiliateProgram()
+    {
+        $folder = $this->getFolder();
+        return view("dashboard.screens.{$folder}.affiliate", ['role' => $folder, 'bodyClass' => 'hh-dashboard']);
+    }
+
     public function _updateYourPayoutInformation(Request $request)
     {
         $user_id = request()->get('user_id');

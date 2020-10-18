@@ -222,3 +222,22 @@ function update_user_meta($user_id, $meta_key, $meta_value = '')
 
     return $user_model->updateUserMeta($user_id, $meta_key, $meta_value);
 }
+
+
+function getRefferalLink($id = null)
+{
+    if($id != null)
+    {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
+        { 
+            $protocol = "https://";
+        }
+        else 
+        {
+            $protocol = "http://";
+        }
+    
+        return $protocol . $_SERVER['HTTP_HOST'] . '/user?ref_id=' . $id;
+    }
+
+}
