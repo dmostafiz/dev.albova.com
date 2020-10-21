@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAffiliateEarningsTable extends Migration
+class CreateAffiliateWithdrawsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateAffiliateEarningsTable extends Migration
      */
     public function up()
     {
-        Schema::create('affiliate_earnings', function (Blueprint $table) {
+        Schema::create('affiliate_withdraws', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onUpdat('cascade')->oneDelete('cascade');
 
-            $table->integer('total_earning')->default(0);
-            $table->integer('this_month')->default(0);
-            $table->integer('available_payout')->default(0);
+            $table->integer('amount');
+
+            $table->string('status')->default('pending');
 
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ class CreateAffiliateEarningsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('affiliate_earnings');
+        Schema::dropIfExists('affiliate_withdraws');
     }
 }

@@ -4,12 +4,14 @@ namespace App\Controllers;
 
 use Sentinel;
 use App\Models\User;
+use App\AffiliateEarning;
 use Illuminate\Http\Request;
+use App\AffiliateEarningRecord;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Charts\AffiliateClickStatisticsChart;
 use App\Charts\currentMonthClickStatistics;
 use App\Charts\previousMonthClickStatistics;
+use App\Charts\AffiliateClickStatisticsChart;
 
 class DashboardController extends Controller
 {
@@ -20,6 +22,30 @@ class DashboardController extends Controller
 
         $data['role'] = $folder;
         $data['bodyClass'] = 'hh-dashboard';
+
+        $affliateEarning = AffiliateEarning::where('user_id', get_current_user_id())->first();
+        if(!$affliateEarning)
+        {
+            $affliateEarning = null;
+        }
+
+        $totalRefferal = User::where('parent_id', get_current_user_id())->get()->count();
+        $data['affiliateEarning'] = $affliateEarning;
+        $data['totalRefferal'] = $totalRefferal;
+
+        $earnings = AffiliateEarningRecord::whereMonth('created_at', date('m'))
+        ->where('user_id', get_current_user_id())
+        ->whereYear('created_at', date('Y'))
+        ->get();
+
+        $earningCount = 0;
+
+        foreach($earnings as $item)
+        {
+            $earningCount += $item->amount;
+        }
+
+        $data['lastMontEarning'] = $earningCount;
 
         return view("dashboard.screens.{$folder}.affiliate", $data);
     }

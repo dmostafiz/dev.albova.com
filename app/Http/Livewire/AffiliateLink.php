@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use App\AffiliateEarning;
 
 class AffiliateLink extends Component
 {
@@ -29,9 +30,21 @@ class AffiliateLink extends Component
         $user->ref_id = $newRefId;
         $user->save();
 
-
         $this->currentUser = $user;
         $this->affiliateId = $user->ref_id;
+
+        $earning = AffiliateEarning::where('user_id', get_current_user_id())->first();
+
+        if(!$earning)
+        {
+           $earning = new AffiliateEarning();
+           $earning->user_id = get_current_user_id();
+           $earning->total_earning = 0;
+           $earning->this_month = 0;
+           $earning->available_payout = 0;
+           $earning->save();
+
+        }
 
         // $this->emit('idGenerated');
 

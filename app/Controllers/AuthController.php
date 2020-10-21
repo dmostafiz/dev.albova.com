@@ -89,12 +89,12 @@ class AuthController extends Controller
             $user = Sentinel::registerAndActivate($credentials);
 
 
-            $time = time();
+            // $time = time();
 
-            $newRefId = substr($time, -4) . $user->id;
+            // $newRefId = substr($time, -4) . $user->id;
 
             $newUser = User::where('id', $user->id)->first();
-            $newUser->ref_id = $newRefId;
+            // $newUser->ref_id = $newRefId;
             $newUser->parent_id = $parrentId;
             $newUser->save();
 

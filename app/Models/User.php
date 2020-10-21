@@ -18,6 +18,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    // public function child()
+    // {
+    //     return $this->belongsTo(User::class, 'child_id');
+    // }
+
     public function deleteRelatedData($user_id, $assign = false){
     	$data = [
     		['table' => 'activations', 'column' => 'user_id'],

@@ -12,8 +12,8 @@
 
             @if($affiliateId == null)
 
-            <h5 class="card-title">You have no refferal link</h5>
-            <p class="card-text">Click the below button to generate your refferal link.</p>
+            {{-- <h5 class="card-title">You have no refferal link</h5> --}}
+            <p class="card-text">Click the button to generate your refferal link.</p>
           
             <a href="#" wire:click="generateAffiliateId()" class="btn btn-primary">Generate Link</a>
          

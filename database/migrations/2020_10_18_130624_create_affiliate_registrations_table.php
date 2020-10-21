@@ -17,10 +17,10 @@ class CreateAffiliateRegistrationsTable extends Migration
             $table->bigIncrements('id');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdat('cascade')->oneDelete('cascade');
 
             $table->integer('child_id')->unsigned();
-            $table->foreign('child_id')->references('id')->on('users');
+            $table->foreign('child_id')->references('id')->on('users')->onUpdat('cascade')->oneDelete('cascade');
 
             $table->timestamps();
         });

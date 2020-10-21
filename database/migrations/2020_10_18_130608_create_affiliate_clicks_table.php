@@ -15,9 +15,9 @@ class CreateAffiliateClicksTable extends Migration
     {
         Schema::create('affiliate_clicks', function (Blueprint $table) {
             $table->bigIncrements('id');
-
+            
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdat('cascade')->oneDelete('cascade');
 
             $table->integer('click')->default(1);
             

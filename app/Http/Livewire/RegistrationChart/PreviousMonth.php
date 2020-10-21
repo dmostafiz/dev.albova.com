@@ -16,7 +16,8 @@ class PreviousMonth extends Component
     public function mount()
     {
         $this->monthName = Carbon::now()->subMonth()->format('F');
-        $this->clickCount = AffiliateRegistration::whereMonth('created_at', '=', Carbon::now()->subMonth()->month)
+        $this->clickCount = AffiliateRegistration::where('user_id', get_current_user_id())
+                          ->whereMonth('created_at', '=', Carbon::now()->subMonth()->month)
                           ->get()->count();
     }
 
