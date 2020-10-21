@@ -20,9 +20,24 @@
             @endphp
 
             <div class="row">
+
                 <div class="col-md-6">
                     @livewire('affiliate-link')
                 </div>
+
+                <div class="col-md-6">
+                    <div class="card-box card-payout">
+                        <button class="btn btn-success float-right"
+                           data-placement="bottom" title="" data-original-title="The total of withdrawals">Withdraw</button>
+                        <h4 class="mt-0 font-16">{{__('Available Payouts')}}</h4>
+                        <h2 class="my-3 text-center">
+                            {{ current_currency('symbol') }}
+                            <span data-plugin="counterup">{{ convert_price($earning['payout'], false) }}</span>
+                        </h2>
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="row">
@@ -41,60 +56,80 @@
 
             </div>
 
-            <div class="earning-section">
-                <div class="row">
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card-box card-balance">
-                            <i class="fa fa-info-circle float-right" data-toggle="tooltip"
-                               data-placement="bottom" title=""
-                               data-original-title="You can make payout with this balance"></i>
-                            <h4 class="mt-0 font-16">{{__('Total Earnings')}}</h4>
-                            <h2 class="my-3 text-center">
-                                {{ current_currency('symbol') }}
-                                <span data-plugin="counterup">{{ convert_price($earning['balance'], false) }}</span>
-                            </h2>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card-box card-net-earning">
-                            <i class="fa fa-info-circle float-right" data-toggle="tooltip"
-                               data-placement="bottom" title=""
-                               data-original-title="Total amount of owner after minus all the fees (commission) for administrator"></i>
-                            <h4 class="mt-0 font-16">{{__('Last Month')}}</h4>
-                            <h2 class="my-3 text-center">
-                                {{ current_currency('symbol') }}
-                                <span data-plugin="counterup">{{ convert_price($earning['net_amount'], false) }}</span>
-                            </h2>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card-box card-earning">
-                            <i class="fa fa-info-circle float-right" data-toggle="tooltip"
-                               data-placement="bottom" title=""
-                               data-original-title="Your total amount"></i>
-                            <h4 class="mt-0 font-16">{{__('Payout')}}</h4>
-                            <h2 class="my-3 text-center">
-                                {{ current_currency('symbol') }}
-                                <span data-plugin="counterup">{{ convert_price($earning['amount'], false) }}</span>
-                            </h2>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-xl-3">
-                        <div class="card-box card-payout">
-                            <i class="fa fa-info-circle float-right" data-toggle="tooltip"
-                               data-placement="bottom" title="" data-original-title="The total of withdrawals"></i>
-                            <h4 class="mt-0 font-16">{{__('Total refferals')}}</h4>
-                            <h2 class="my-3 text-center">
-                                {{ current_currency('symbol') }}
-                                <span data-plugin="counterup">{{ convert_price($earning['payout'], false) }}</span>
-                            </h2>
+            <div class="row">
+                <div class="col-md-6">
+                    @livewire('withdraw-history-component')
+                </div>
+                <div class="col-md-6">
+                    {{-- earning-section --}}
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card-box card-balance">
+                                    <i class="fa fa-info-circle float-right" data-toggle="tooltip"
+                                       data-placement="bottom" title=""
+                                       data-original-title="You can make payout with this balance"></i>
+                                    <h4 class="mt-0 font-16">{{__('Total Earnings')}}</h4>
+                                    <h2 class="my-3 text-center">
+                                        {{ current_currency('symbol') }}
+                                        <span data-plugin="counterup">{{ convert_price($earning['balance'], false) }}</span>
+                                    </h2>
+                                </div>
+                            </div>
+        
+                            <div class="col-md-6">
+                                <div class="card-box card-net-earning">
+                                    <i class="fa fa-info-circle float-right" data-toggle="tooltip"
+                                       data-placement="bottom" title=""
+                                       data-original-title="Total amount of owner after minus all the fees (commission) for administrator"></i>
+                                    <h4 class="mt-0 font-16">{{__('Last Month')}}</h4>
+                                    <h2 class="my-3 text-center">
+                                        {{ current_currency('symbol') }}
+                                        <span data-plugin="counterup">{{ convert_price($earning['net_amount'], false) }}</span>
+                                    </h2>
+                                </div>
+                            </div>
+        
+                            <div class="col-md-6">
+                                <div class="card-box card-earning">
+                                    <i class="fa fa-info-circle float-right" data-toggle="tooltip"
+                                       data-placement="bottom" title=""
+                                       data-original-title="Your total amount"></i>
+                                    <h4 class="mt-0 font-16">{{__('Payout')}}</h4>
+                                    <h2 class="my-3 text-center">
+                                        {{ current_currency('symbol') }}
+                                        <span data-plugin="counterup">{{ convert_price($earning['amount'], false) }}</span>
+                                    </h2>
+                                </div>
+                            </div>
+        
+                            <div class="col-md-6">
+                                <div class="card-box card-payout">
+                                    <i class="fa fa-info-circle float-right" data-toggle="tooltip"
+                                       data-placement="bottom" title="" data-original-title="The total of withdrawals"></i>
+                                    <h4 class="mt-0 font-16">{{__('Total refferals')}}</h4>
+                                    <h2 class="my-3 text-center">
+                                        {{ current_currency('symbol') }}
+                                        <span data-plugin="counterup">{{ convert_price($earning['payout'], false) }}</span>
+                                    </h2>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-5">
+                    @livewire('registration-history-component')
+                </div>
+
+                <div class="col-md-7">
+                    @livewire('earning-history-component')
+                </div>
+            </div>
+
+    
 
             {{--End content--}}
             @include('dashboard.components.footer-content')

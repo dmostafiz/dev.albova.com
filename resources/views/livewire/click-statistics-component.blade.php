@@ -1,6 +1,6 @@
 <div>
     <div class="card"> 
-        <div class="card-header pb-0">
+        <div class="card-header bg-white pb-0">
           <div class="float-left" style="font-weight: 900">
              Click statistics
           </div>  

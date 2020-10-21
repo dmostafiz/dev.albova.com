@@ -1,7 +1,9 @@
 <div>
-    <div class="card">
-        <div class="card-header">
-         Your Refferal Link
+    <div class="card ">
+        <div class="card-header bg-white">
+            <div style="font-weight: 900">
+                Your Invitation Link
+            </div>
          {{-- @php
              $user = get_current_user_data();
          @endphp --}}
@@ -18,11 +20,10 @@
             
             @else
 
-            <p class="card-text">Copy and share this link to invite peoples.</p>
-                <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" readonly value="{{  getRefferalLink($currentUser->ref_id) }}" id="copyText">
+                <div class="input-group pt-1 pb-2">
+                    <input type="text" class="form-control border-success form-control-sm" readonly value="{{  getRefferalLink($currentUser->ref_id) }}" id="copyText">
                     <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="copyBtn" onclick="clickAndCopy()" >Copy</button>
+                    <button class="btn btn-outline-success" type="button" id="copyBtn" onclick="clickAndCopy()" >Copy</button>
                     </div>
                 </div>
 
