@@ -2,11 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Http\Controllers\Controller;
+use Sentinel;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Sentinel;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Charts\AffiliateClickStatisticsChart;
+use App\Charts\currentMonthClickStatistics;
+use App\Charts\previousMonthClickStatistics;
 
 class DashboardController extends Controller
 {
@@ -14,7 +17,11 @@ class DashboardController extends Controller
     public function affiliateProgram()
     {
         $folder = $this->getFolder();
-        return view("dashboard.screens.{$folder}.affiliate", ['role' => $folder, 'bodyClass' => 'hh-dashboard']);
+
+        $data['role'] = $folder;
+        $data['bodyClass'] = 'hh-dashboard';
+
+        return view("dashboard.screens.{$folder}.affiliate", $data);
     }
 
     public function _updateYourPayoutInformation(Request $request)

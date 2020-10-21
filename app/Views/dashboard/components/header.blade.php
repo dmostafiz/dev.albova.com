@@ -33,11 +33,16 @@
     ];
     ?> 
     <script>
-        var hh_params = <?php echo json_encode($hh_params); ?>
+        var hh_params = "<?php echo json_encode($hh_params); ?>"
     </script>
     <?php do_action('header'); ?>
     <?php do_action('init_header'); ?>
     <?php do_action('init_dashboard_header'); ?>
+
+    @livewireStyles
+
+    @stack('affiliateStatistis')
+
 </head>
 <body class="awe-booking {{is_rtl()? 'rtl': ''}} {{ isset($bodyClass)? $bodyClass: '' }}">
 @include('common.loading', ['class' => 'page-loading'])

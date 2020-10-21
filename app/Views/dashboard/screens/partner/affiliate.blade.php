@@ -1,4 +1,13 @@
 @include('dashboard.components.header')
+
+@push('affiliateStatistis')
+    <style>
+        span.clicks-count{
+            font-siz:20px;
+        }
+    </style>
+@endpush
+
 <div id="wrapper">
     @include('dashboard.components.top-bar')
     @include('dashboard.components.nav')
@@ -11,40 +20,26 @@
             @endphp
 
             <div class="row">
-                <div class="col-md-5">
-                    <div class="card">
-                        <div class="card-header">
-                         Your Refferal Link
-                         @php
-                             $user = get_current_user_data();
-                         @endphp
-                        </div>
-                        <div class="card-body">
-
-                            @if($user->ref_id == null)
-
-                            <h5 class="card-title">You have no refferal link</h5>
-                            <p class="card-text">Click the below button to generate your refferal link.</p>
-                            <form action="{{ route('reff.generate') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $user->id }}">
-                                <button href="submit" class="btn btn-primary">Generate Link</button>
-                            </form>
-                            
-                            @else
-                            <p class="card-text">Copy and share this link to invite peoples.</p>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" readonly value="{{  getRefferalLink($user->ref_id) }}" id="copyText">
-                                    <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" id="copyBtn" onclick="clickAndCopy()" >Copy</button>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                      </div>
+                <div class="col-md-6">
+                    @livewire('affiliate-link')
                 </div>
             </div>
 
+            <div class="row">
+                
+                <div class="col-md-4">
+                    @livewire('click-statistics-component')
+                </div>
+
+                <div class="col-md-4">
+                    @livewire('registration-statistics-component')
+                </div>
+
+                <div class="col-md-4">
+                    @livewire('earning-statistics-component')
+                </div>
+
+            </div>
 
             <div class="earning-section">
                 <div class="row">
@@ -106,5 +101,21 @@
         </div>
     </div>
 </div>
+@push('pageScripts')
 
+<script>
+    function clickAndCopy() {
+      var copyText = document.getElementById("copyText");
+      var copyBtn = document.getElementById("copyBtn");
+      copyText.select();
+      copyText.setSelectionRange(0, 99999)
+      document.execCommand("copy");
+      copyBtn.innerHTML = "Copied!";
+    }
+
+    
+
+</script>
+@endpush
 @include('dashboard.components.footer')
+

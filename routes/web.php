@@ -19,4 +19,4 @@ use Symfony\Component\HttpFoundation\Request;
 // use Illuminate\Support\Facades\Request;
 
 Route::get('/user', 'RefferalController@reffInit')->name('user.reff');
-Route::post('/userGenerateRefID', 'RefferalController@generateRefId')->name('reff.generate');
+// Route::post('/userGenerateRefID', 'RefferalController@generateRefId')->name('reff.generate');

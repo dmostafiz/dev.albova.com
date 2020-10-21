@@ -966,6 +966,9 @@ class ExperienceController extends Controller
 
     public function _updateExperience(Request $request)
     {
+
+        // dd('ok');
+
         $step = request()->get('step', 'next');
         $event = request()->get('option_event', 'button');
         $redirect = request()->get('redirect');
