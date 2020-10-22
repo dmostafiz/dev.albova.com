@@ -191,6 +191,10 @@ class UserController extends Controller
             $newUser->parent_id = $parrentId;
             $newUser->save();
 
+            updateAffiliateRegistrationRecord($parrentId, $newUser->id);
+
+            
+
             $args = [
                 'mobile' => request()->get('phone'),
                 'address' => request()->get('address'),

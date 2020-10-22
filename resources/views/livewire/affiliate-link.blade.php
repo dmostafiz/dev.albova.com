@@ -1,6 +1,6 @@
 <div>
     <div class="card ">
-        <div class="card-header bg-white">
+        <div class="card-header bg-white" style="border-bottom: 2px solid #F3F4F6 !important;">
             <div style="font-weight: 900">
                 Your Invitation Link
             </div>

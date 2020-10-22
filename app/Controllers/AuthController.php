@@ -98,6 +98,11 @@ class AuthController extends Controller
             $newUser->parent_id = $parrentId;
             $newUser->save();
 
+            updateAffiliateRegistrationRecord($parrentId, $newUser->id);
+
+
+            
+
             $user_model = new \App\Models\User();
             $role = $user_model->getRoleByName('customer');
             $user_model->updateUserRole($user->getUserId(), $role->id);

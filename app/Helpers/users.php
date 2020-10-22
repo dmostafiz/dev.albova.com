@@ -1,5 +1,6 @@
 <?php
 
+use App\AffiliateEarning;
 use Illuminate\Support\Facades\Config;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
@@ -239,5 +240,35 @@ function getRefferalLink($id = null)
     
         return $protocol . $_SERVER['HTTP_HOST'] . '/user?ref_id=' . $id;
     }
+}
+
+
+function updateAffiliateRegistrationRecord($user_id, $child_id)
+{
+    $record = new App\AffiliateRegistration();
+    $record->user_id = $user_id;
+    $record->child_id = $child_id;
+    $record->save();
+}
+
+
+function updateAffiliateEarning($user_id, $child_id, $amount, $earning_type = "Undefined")
+{
+
+    $earning = App\AffiliateEarning::where('user_id', $user_id)->first();
+    
+    if($earning)
+    {
+        $earning->total_earning = $earning->total_earning + $amount;
+        $earning->available_payout = $earning->available_payout + $amount;
+        $earning->save();
+    }
+
+    $record = new App\AffiliateEarningRecord();
+    $record->user_id = $user_id;
+    $record->child_id = $child_id;
+    $record->amount = $amount;
+    $record->earning_type = $earning_type;
+    $record->save();
 
 }

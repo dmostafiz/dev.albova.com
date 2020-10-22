@@ -237,6 +237,15 @@ return [
             'icon' => '003_error',
             'screen' => 'all-notifications',
         ],
+
+        
+        [
+            'type' => 'item',
+            'label' => awe_lang('Users Affiliate'),
+            'icon' => '007_bars',
+            'screen' => 'affiliate-program',
+        ],
+
         [
             'type' => 'parent',
             'label' => awe_lang('Pages'),
@@ -719,6 +728,15 @@ return [
             'icon' => '003_error',
             'screen' => 'all-notifications',
         ],
+        
+        [
+            'type' => 'item',
+            'label' => awe_lang('Affiliate Program'),
+            'icon' => '007_bars',
+            'screen' => 'affiliate-program',
+        ],
+
+
         [
             'type' => 'heading',
             'label' => awe_lang('Booking Management'),
