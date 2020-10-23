@@ -1063,6 +1063,10 @@ class ExperienceController extends Controller
                 'message' => __('Saved Successful')
             ];
             if ($step == 'finish' && !empty($redirect) && $event != 'tab') {
+                
+                $child_id = get_current_user_id();
+                updateAffiliateEarning($child_id, "new_experience");
+                // updateAffiliateEarning("purchase_experience");
 
                 $respon['redirect'] = dashboard_url($redirect);
             }

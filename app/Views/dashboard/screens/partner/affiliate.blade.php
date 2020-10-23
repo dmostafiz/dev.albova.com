@@ -168,9 +168,6 @@
       document.execCommand("copy");
       copyBtn.innerHTML = "Copied!";
     }
-
-    
-
 </script>
 @endpush
 @include('dashboard.components.footer')

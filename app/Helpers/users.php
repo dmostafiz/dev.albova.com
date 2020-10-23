@@ -252,23 +252,70 @@ function updateAffiliateRegistrationRecord($user_id, $child_id)
 }
 
 
-function updateAffiliateEarning($user_id, $child_id, $amount, $earning_type = "Undefined")
+function updateAffiliateEarning($child_id, $type)
 {
 
-    $earning = App\AffiliateEarning::where('user_id', $user_id)->first();
-    
-    if($earning)
+    $child = App\Models\User::where('id', $child_id)->first();
+    // $child_id = $child->id;
+
+    if($child->parent_id != null)
     {
-        $earning->total_earning = $earning->total_earning + $amount;
-        $earning->available_payout = $earning->available_payout + $amount;
-        $earning->save();
+        $parent = App\Models\User::where('id',$child->parent_id)->first();
+
+        if($parent)
+        {
+
+            $role = get_user_role($parent->id)->name;
+
+            if($type == "new_experience")
+            {
+                if($role == 'Partner')
+                {
+                    $amount = 10;
+                }
+                elseif($role == 'Customer')
+                {
+                    $amount = 5;
+                }
+
+                $earning_type = "Experience created.";
+            }
+            elseif($type == "purchase_experience")
+            {
+                $earning_type = "Experience sold.";
+
+                if($role == 'Partner')
+                {
+                    $amount = 30;
+                }
+                elseif($role == 'Customer')
+                {
+                    $amount = 5;
+                }
+            }
+
+
+            $user_id = $parent->id;
+    
+            $earning = App\AffiliateEarning::where('user_id', $user_id)->first();
+        
+            if($earning)
+            {
+                $earning->total_earning = $earning->total_earning + $amount;
+                $earning->available_payout = $earning->available_payout + $amount;
+                $earning->save();
+            }
+        
+            $record = new App\AffiliateEarningRecord();
+            $record->user_id = $user_id;
+            $record->child_id = $child_id;
+            $record->amount = $amount;
+            $record->earning_type = $earning_type;
+            $record->save();
+        }
+
     }
 
-    $record = new App\AffiliateEarningRecord();
-    $record->user_id = $user_id;
-    $record->child_id = $child_id;
-    $record->amount = $amount;
-    $record->earning_type = $earning_type;
-    $record->save();
+
 
 }

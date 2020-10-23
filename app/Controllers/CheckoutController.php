@@ -2,12 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\AffiliateFirstSale;
+use App\Models\User;
 use App\Models\Booking;
-use App\Controllers\Services\ExperienceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Controllers\Services\ExperienceController;
 
 class CheckoutController extends Controller
 {
@@ -23,6 +25,9 @@ class CheckoutController extends Controller
                 'need_login' => true
             ]);
         }
+
+        
+
         $validator = Validator::make($request->all(),
             [
                 'firstName' => 'required',
@@ -44,6 +49,9 @@ class CheckoutController extends Controller
                 'term_condition.required' => __('Please agree with the Term and Condition')
             ]
         );
+
+        
+
         if ($validator->fails()) {
             return $this->sendJson([
                 'status' => 0,
@@ -66,6 +74,7 @@ class CheckoutController extends Controller
         $this->saveUserCheckoutData();
 
         $payment = get_available_payments($paymentMethod);
+
         if (!$payment) {
             $this->sendJson([
                 'status' => 0,
@@ -80,6 +89,8 @@ class CheckoutController extends Controller
                 'message' => view('common.alert', ['type' => 'danger', 'message' => __('Cart is empty')])->render()
             ]);
         }
+
+        
 
         do_action('hh_before_create_booking');
 
@@ -105,9 +116,19 @@ class CheckoutController extends Controller
                     'message' => view('common.alert', ['type' => 'danger', 'message' => $validation['message']])->render()
                 ]);
             }
+
+            
             $responsive = $paymentObject->purchase($new_booking_id);
             if ($responsive['status'] == 'pending') {
                 BookingController::get_inst()->deleteBooking($new_booking_id);
+
+                //#####################################################    
+                //My affiliate Code
+                // $this->payTheAffiliateUser($new_booking_id);
+                //My affiliate Code
+                //############################################################################ 
+  
+
                 return $this->sendJson([
                     'status' => 0,
                     'message' => view('common.alert', ['type' => 'danger', 'message' => $responsive['message']])->render()
@@ -163,7 +184,15 @@ class CheckoutController extends Controller
                             $responsive = $paymentObject->completePurchase($orderID);
                             do_action('hh_before_check_complete_booking', $orderObject);
                             if ($responsive['status'] == 'completed') {
+
                                 BookingController::get_inst()->updateBookingStatus($orderID, 'completed');
+
+                                //#####################################################    
+                                //My affiliate Code
+                                $this->payTheAffiliateUser($orderID);
+                                //My affiliate Code
+                                //############################################################################ 
+
                             } elseif ($responsive['status'] == 'canceled') {
                                 BookingController::get_inst()->updateBookingStatus($orderID, 'canceled');
                             } elseif ($responsive['status'] == 'incomplete') {
@@ -233,14 +262,45 @@ class CheckoutController extends Controller
 
     public function _thankyouPage(Request $request)
     {
+
         $orderID = request()->get('_orderID');
         $isResponsive = $this->checkIsResponsive();
         if (!$isResponsive) {
             return redirect(url('/'));
         }
+
         $this->completePurchase($request);
+
         reset_booking_data();
         $bookingObject = BookingController::get_inst()->getBookingByID($orderID);
         return view('frontend.thank-you', ['bookingObject' => $bookingObject]);
+    }
+
+
+//############################################################################ 
+ //My affiliate Code
+    public function payTheAffiliateUser($orderID)
+    {
+        //My affiliate Code
+        $get_booking = get_booking($orderID, 'experience');
+
+        $owner = User::where('id', $get_booking->owner)->first();
+
+        if($owner)
+        {
+            $firstSale = AffiliateFirstSale::where('user_id', $owner->id)->first();
+
+            if(!$firstSale)
+            {
+                $create_first_Sale = new AffiliateFirstSale();
+                $create_first_Sale->user_id = $owner->id;
+                $create_first_Sale->save();
+
+                //Here the affiliate will earn his comission
+                updateAffiliateEarning($owner->id, "purchase_experience");
+            }
+        }
+        //My affiliate Code
+        //############################################################################ 
     }
 }

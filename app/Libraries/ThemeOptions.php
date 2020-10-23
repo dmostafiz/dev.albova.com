@@ -128,7 +128,7 @@ class ThemeOptions
         if (!empty($serviceObject) && is_object($serviceObject)) {
             return $serviceObject;
         }
-        return null;
+        return null; 
     }
 
     public static function renderOption()

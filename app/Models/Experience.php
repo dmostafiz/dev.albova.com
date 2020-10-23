@@ -312,7 +312,7 @@ class Experience extends Model
             'created_at' => time(),
             'author' => get_current_user_id(),
             'status' => 'pending'
-        ];
+        ]; 
 
         $data = wp_parse_args($data, $default);
         return DB::table($this->getTable())->insertGetId($data);
