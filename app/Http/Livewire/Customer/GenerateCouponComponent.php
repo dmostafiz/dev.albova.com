@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 class GenerateCouponComponent extends Component
 {
 
+    public $availableBalance;
     public $availableAmount;
     public $permission = true;
     public $message;
@@ -24,6 +25,7 @@ class GenerateCouponComponent extends Component
         if($earning)
         {
             $this->availableAmount = $earning->available_payout;
+            $this->availableBalance = $earning->available_payout;
 
             if($this->availableAmount > $earning->available_payout || $this->availableAmount < 1)
             {
