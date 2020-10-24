@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
         <table class="table table-large mb-0 dt-responsive nowrap w-100">
-          @if($coupons)
+          @if(count($coupons) > 0)
             <thead>
               <tr>
                   <th>Amount</th>
