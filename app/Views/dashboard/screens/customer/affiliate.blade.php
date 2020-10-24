@@ -21,7 +21,7 @@
                 <div class="col-md-6">
                     <div class="card-box card-payout">
                         <button class="btn btn-success float-right" title="withdraw your earnings" data-toggle="modal" data-target="#withdrawModel" >
-                            Withdraw
+                            Generate Coupon
                         </button>
 
 
@@ -29,13 +29,13 @@
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Withdraw</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">Generate coupon</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
-                                <div class="modal-body">
-                                  @livewire('withdraw-component')
+                                <div class="modal-body"> 
+                                  @livewire('customer.generate-coupon-component')
                                 </div>
                                 {{-- <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -46,7 +46,7 @@
                           </div>
 
 
-                        <h4 class="mt-0 font-16">{{__('Available Payouts')}}</h4>
+                        <h4 class="mt-0 font-16">{{__('Available for Purchase')}}</h4>
                         <h2 class="my-3 text-center">
                             @php
                                 $available_payout = ($affiliateEarning != null) ? $affiliateEarning->available_payout : 0;
@@ -62,7 +62,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    @livewire('withdraw-history-component')
+                    @livewire('customer.available-coupons-component')
                 </div>
                 <div class="col-md-6">
                     {{-- earning-section --}}
@@ -73,8 +73,8 @@
                                 <div class="card-box card-earning">
                                     <i class="fa fa-info-circle float-right" data-toggle="tooltip"
                                        data-placement="bottom" title=""
-                                       data-original-title="Your available payouts"></i>
-                                    <h4 class="mt-0 font-16">{{__('Available Payouts')}}</h4>
+                                       data-original-title="You can purchase services using this balance"></i>
+                                    <h4 class="mt-0 font-16">{{__('Available Purchase')}}</h4>
                                     <h2 class="my-3 text-center">
                                         {{ current_currency('symbol') }}
                                         <span data-plugin="counterup">{{ convert_price($available_payout, false) }}</span>
@@ -167,6 +167,17 @@
       copyText.setSelectionRange(0, 99999)
       document.execCommand("copy");
       copyBtn.innerHTML = "Copied!";
+    }
+
+    function copyTheCoupon(id)
+    {
+        console.log(id);
+        var couponText = document.getElementById("couponText"+id);
+        var couponBtn = document.getElementById("couponBtn"+id);
+        couponText.select();
+        couponText.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+        couponBtn.innerHTML = "Copied!";
     }
 
     

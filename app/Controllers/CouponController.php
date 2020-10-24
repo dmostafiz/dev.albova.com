@@ -2,11 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Http\Controllers\Controller;
+use Sentinel;
+use App\Models\User;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Sentinel;
+use Illuminate\Support\Facades\Session;
 
 
 class CouponController extends Controller
@@ -99,6 +102,26 @@ class CouponController extends Controller
         $cart['cartData'] = $cartData;
 
         \Cart::get_inst()->setCart($cart);
+
+        $current_user = User::where('id', get_current_user_id())->first();
+       
+        if($current_user !== null)
+        {
+            $available_coupon = Coupon::where('coupon_code', $coupon_code)->where('author', $current_user->id)->first();
+
+            if($available_coupon)
+            {
+                session()->put('client_affiliate_cpn', $available_coupon->coupon_code);
+            }
+        }
+
+        // if(session()->has('client_affiliate_cpn'))
+        // {
+        //     return "MySession coupon" . session()->get('client_affiliate_cpn');
+        // }
+
+
+
 
         return $this->sendJson([
             'status' => 1,

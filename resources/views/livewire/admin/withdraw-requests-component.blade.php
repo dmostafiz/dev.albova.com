@@ -10,7 +10,8 @@
             <thead>
               <tr>
                 <th scope="col">Date</th>
-                <th scope="col">User Email</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
                 <th scope="col">User Type</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Status</th>
@@ -22,6 +23,7 @@
               <tr>
                 <td>{{ $item->created_at->format("d M, Y") }}</td>
                 <td>{{ $item->user->email }}</td>
+                <td>{{ $item->user->mobile }}</td>
                 <td>{{ get_user_role($item->user->id)->name }}</td>
                 <td>${{ $item->amount }}</td>
                 <td>
@@ -42,7 +44,7 @@
             </tbody>
             @else 
 
-            <h4 class="text-center">No data found</h4>
+            <h4 class="text-center">No withdraw requests yet</h4>
             
           @endif
         </table>

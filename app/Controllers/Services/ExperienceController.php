@@ -2,19 +2,21 @@
 
 namespace App\Controllers\Services;
 
+use Sentinel;
+use ICal\ICal;
+use App\Models\User;
 use App\Models\Booking;
 use App\Models\Comment;
 use App\Models\Experience;
-use App\Models\ExperienceAvailability;
-use App\Models\ExperienceBooking;
-use App\Models\ExperiencePrice;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Sentinel;
 use App\Models\TermRelation;
-use ICal\ICal;
+use Illuminate\Http\Request;
+use App\Models\ExperiencePrice;
+use App\AffiliateFirstExperience;
+use App\Models\ExperienceBooking;
+use App\Http\Controllers\Controller;
+use App\Models\ExperienceAvailability;
+use Illuminate\Support\Facades\Validator;
 
 class ExperienceController extends Controller
 {
@@ -1064,10 +1066,6 @@ class ExperienceController extends Controller
             ];
             if ($step == 'finish' && !empty($redirect) && $event != 'tab') {
                 
-                $child_id = get_current_user_id();
-                updateAffiliateEarning($child_id, "new_experience");
-                // updateAffiliateEarning("purchase_experience");
-
                 $respon['redirect'] = dashboard_url($redirect);
             }
             $this->sendJson($respon, true);
@@ -1096,6 +1094,33 @@ class ExperienceController extends Controller
 
         $experience_model = new Experience();
         $updated = $experience_model->updateStatus($experience_id, $status);
+
+    
+        if($status == "publish")
+        {
+            $exp = Experience::where('post_id', $experience_id)->first();
+            $user = User::where('id', $exp->author)->first();
+
+            if($user)
+            {
+                $first = AffiliateFirstExperience::where('user_id', $user->id)->first();
+
+                if(!$first)
+                {
+                    $create = new AffiliateFirstExperience();
+                    $create->user_id = $user->id;
+                    $create->save();
+                    
+                    updateAffiliateEarning($user->id, "new_experience");
+                }
+            }
+            // updateAffiliateEarning("purchase_experience");
+
+        }
+
+
+
+
         if (!is_null($updated)) {
             $this->sendJson([
                 'status' => 1,

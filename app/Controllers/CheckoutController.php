@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
-use App\AffiliateFirstSale;
+use session;
 use App\Models\User;
+use App\Models\Coupon;
 use App\Models\Booking;
+use App\AffiliateFirstSale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -127,7 +129,25 @@ class CheckoutController extends Controller
                 // $this->payTheAffiliateUser($new_booking_id);
                 //My affiliate Code
                 //############################################################################ 
-  
+                // $this->payCustomerAffiliatePurchase();
+               
+                // if(session()->has('client_affiliate_cpn'))
+                // {
+                //     $myCoupon = session()->get('client_affiliate_cpn');
+                //     $coupon = Coupon::where('coupon_code', $myCoupon)->first();
+
+                //     if($coupon)
+                //     {
+                //         $coupon->timestamps = false;
+                //         $coupon->status = 'off';
+                //         $coupon->save();
+                //     }
+
+                    
+                //     session()->forget('client_affiliate_cpn');
+                    
+                //     // return [$coupon];
+                // }
 
                 return $this->sendJson([
                     'status' => 0,
@@ -189,7 +209,28 @@ class CheckoutController extends Controller
 
                                 //#####################################################    
                                 //My affiliate Code
+
                                 $this->payTheAffiliateUser($orderID);
+
+
+                                $this->payCustomerAffiliatePurchase();
+
+
+                                if(session()->has('client_affiliate_cpn'))
+                                {
+                                    $myCoupon = session()->get('client_affiliate_cpn');
+                                    $coupon = Coupon::where('coupon_code', $myCoupon)->first();
+
+                                    if($coupon)
+                                    {
+                                        $coupon->timestamps = false;
+                                        $coupon->status = 'off';
+                                        $coupon->save();
+                                    }
+
+                                    session()->forget('client_affiliate_cpn');
+                                }
+
                                 //My affiliate Code
                                 //############################################################################ 
 
@@ -279,6 +320,25 @@ class CheckoutController extends Controller
 
 //############################################################################ 
  //My affiliate Code
+
+
+    public function payCustomerAffiliatePurchase()
+    {
+        $current_user = User::where('id', get_current_user_id())->first();
+                                
+        if($current_user->parent_id != null)
+        {
+            $parent = User::where('id', $current_user->parent_id)->first();
+            $parentRole = get_user_role($parent->id)->name;
+
+            if($parentRole == 'Customer')
+            {
+                updateAffiliateEarning($current_user->id, "purchase_experience");
+            }
+        }
+
+    }
+
     public function payTheAffiliateUser($orderID)
     {
         //My affiliate Code
