@@ -149,6 +149,8 @@ class CheckoutController extends Controller
                 //     // return [$coupon];
                 // }
 
+                // $this->payCustomerAffiliatePurchase();
+
                 return $this->sendJson([
                     'status' => 0,
                     'message' => view('common.alert', ['type' => 'danger', 'message' => $responsive['message']])->render()

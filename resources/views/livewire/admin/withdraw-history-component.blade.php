@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header bg-white">
         <div style="font-weight: 900">
-            Withdrawal Requests 
+            Withdrawal Histories 
         </div>
     </div>
     <div class="card-body">
@@ -38,15 +38,20 @@
                   @endif
                 </td>
                 <td>
-                    <button wire:click="approve({{ $item->id }})" class="btn btn-success btn-sm shadow">approve</button> 
-                    <button wire:click="decline({{ $item->id }})" class="btn btn-danger btn-sm shadow">decline</button> 
+                    {{-- @if($item->status != 'approved')
+                        <button wire:click="approve({{ $item->id }})" class="btn btn-success btn-sm shadow">approve</button> 
+                    @endif --}}
+                    
+                    <button wire:click="delete({{ $item->id }})" class="btn btn-danger btn-sm shadow">Delete</button> 
+                    {{-- @if($item->status != 'declined')
+                    @endif --}}
                 </td>
               </tr>
               @endforeach
             </tbody>
             @else 
 
-            <h4 class="text-center">No withdraw requests found</h4>
+            <h4 class="text-center">No history found</h4>
             
           @endif
         </table>

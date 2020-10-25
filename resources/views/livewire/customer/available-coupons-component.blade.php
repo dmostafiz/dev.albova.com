@@ -32,7 +32,7 @@
             </tbody>
             @else 
 
-            <h4 class="text-center">No data found</h4>
+            <h4 class="text-center">No coupons found</h4>
             
           @endif
         </table>

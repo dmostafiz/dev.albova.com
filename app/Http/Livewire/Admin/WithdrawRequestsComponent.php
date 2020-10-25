@@ -59,12 +59,15 @@ class WithdrawRequestsComponent extends Component
             $this->loadMore = false;
         }
 
+        $this->emit('withdraw-updated');
+
         // Here shoud pay the user
 
 
         //######################
 
     }
+    
     public function decline($id)
     {
         // dd($id);
@@ -83,6 +86,7 @@ class WithdrawRequestsComponent extends Component
             $this->loadMore = false;
         }
 
+        $this->emit('withdraw-updated');
 
     }
     

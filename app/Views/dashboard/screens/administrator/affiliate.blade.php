@@ -16,6 +16,9 @@
                 <div class="col-md-12">
                     @livewire('admin.withdraw-requests-component')
                 </div>
+                <div class="col-md-12">
+                    @livewire('admin.withdraw-history-component')
+                </div>
 
             </div>
 

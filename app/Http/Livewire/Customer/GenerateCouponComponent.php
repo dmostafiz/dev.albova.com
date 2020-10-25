@@ -89,14 +89,17 @@ class GenerateCouponComponent extends Component
     {
             $earning = AffiliateEarning::where('user_id', get_current_user_id())->first();
 
-            if($this->availableAmount > $earning->available_payout|| $this->availableAmount < 1)
+            if($earning)
             {
-                 $this->permission = false;
-                 $this->message = "You can't exide your available balance";
-            }
-            else
-            {
-                $this->permission = true;
+                if($this->availableAmount > $earning->available_payout|| $this->availableAmount < 1)
+                {
+                     $this->permission = false;
+                     $this->message = "You can't exide your available balance";
+                }
+                else
+                {
+                    $this->permission = true;
+                }
             }
 
         return view('livewire.customer.generate-coupon-component');

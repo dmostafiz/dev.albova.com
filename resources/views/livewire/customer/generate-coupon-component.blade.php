@@ -16,7 +16,7 @@
                 @endif
             </div>
         @else 
-            <p class="text-success">New coupon generated Successfullu.</p>
+            <p class="text-success">New coupon generated Successfully.</p>
             <h4>{{ $code }}</h4>
             <button class="btn btn-outline-success float-right" wire:click="thatsGreat()" title="Withdraw Confirmed">
                 Thats Great!
