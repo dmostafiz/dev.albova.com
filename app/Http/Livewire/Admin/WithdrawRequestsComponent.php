@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\AffiliateEarning;
+use App\Models\Payout;
 use Livewire\Component;
+use App\AffiliateEarning;
 use App\AffiliateWithdraw;
 
 class WithdrawRequestsComponent extends Component
@@ -49,6 +50,29 @@ class WithdrawRequestsComponent extends Component
     {
         // dd($id);
         $wt =  AffiliateWithdraw::where('id', $id)->first();
+
+        if ($wt) 
+        {
+            $user_id = $wt->user_id;
+        
+            $amount = (float)$wt->amount;
+            $payoutID = 'PO-' . date('Ymd') . $user_id;
+            $data = [
+                'user_id' => $user_id,
+                'payout_id' => $payoutID,
+                'amount' => $amount,
+                'created' => time(),
+                'status' => 'pending'
+            ];
+            $payout_model = new Payout();
+            $new_payout_id = $payout_model->insertPayout($data);
+
+            do_action('hh_calculator_payout_each_partners', $user_id, $new_payout_id);
+       
+        }
+        //######################
+
+
         $wt->status = 'approved';
         $wt->save();
 
@@ -58,13 +82,8 @@ class WithdrawRequestsComponent extends Component
         {
             $this->loadMore = false;
         }
-
+        
         $this->emit('withdraw-updated');
-
-        // Here shoud pay the user
-
-
-        //######################
 
     }
     

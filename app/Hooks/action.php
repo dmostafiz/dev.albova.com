@@ -262,7 +262,7 @@ class Hook
 
         $this->iterations[$nesting_level] = array_keys($this->callbacks);
         $num_args = count($args);
-
+ 
         do {
             $this->current_priority[$nesting_level] = $priority = current($this->iterations[$nesting_level]);
 
